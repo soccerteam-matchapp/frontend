@@ -6,15 +6,14 @@ export default function Login() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    alert(`๋ก๊ทธ์ธ ์๋: ${id}`);
+    alert(`๋ก๊ทธ?ธ ??: ${id}`);
   };
 
   return (
     <div className="screen">
       <div className="statusbar" />
 
-      {/* ์๋จ ๋ฌธ๊ตฌ */}
-      <div className="hand">์คํฌ์ธ ๋ฅผ ์์ฝ๊ฒ</div>
+      <div className="hand">?ค?ฌ์ธ ๋?? ??ฝ๊ฒ?</div>
 
       <h1 className="brand">
         <span>S</span>
@@ -25,17 +24,16 @@ export default function Login() {
         <span className="dark">l</span>
         <span>y</span>
       </h1>
-      <div className="sub-brand">์คํฌ์ธจ๋ฆฌ</div>
+      <div className="sub-brand">?ค?ฌ์ธจ๋ฆฌ</div>
 
       <form className="form" onSubmit={onSubmit}>
-        {/* ์•์ด๋”” */}
         <label className="field">
-          <span className="label">์•์ด๋””</span>
+          <span className="label">?•?ด?””</span>
           <div className="input-wrap">
             <input
               value={id}
               onChange={(e) => setId(e.target.value)}
-              placeholder="์•์ด๋””"
+              placeholder="?•?ด?””"
               autoComplete="username"
             />
             {id && (
@@ -46,15 +44,15 @@ export default function Login() {
           </div>
         </label>
 
-        {/* ๋น๋ฐ€๋ฒํธ */}
+        {/* ๋น๋??๋ฒํธ */}
         <label className="field">
-          <span className="label">๋น๋ฐ€๋ฒํธ</span>
+          <span className="label">๋น๋??๋ฒํธ</span>
           <div className="input-wrap">
             <input
               type="password"
               value={pw}
               onChange={(e) => setPw(e.target.value)}
-              placeholder="๋น๋ฐ€๋ฒํธ"
+              placeholder="๋น๋??๋ฒํธ"
               autoComplete="current-password"
             />
             {pw && (
@@ -65,15 +63,15 @@ export default function Login() {
           </div>
         </label>
 
-        {/* ๋ก๊ทธ์ธ ๋ฒํผ */}
+        {/* ๋ก๊ทธ?ธ ๋ฒํผ */}
         <button className="primary-btn" type="submit" disabled={!id || !pw}>
-          ๋ก๊ทธ์ธ
+          ๋ก๊ทธ?ธ
         </button>
       </form>
 
-      {/* ํ์๊ฐ€์… ๋งํฌ */}
+      {/* ??๊ฐ??… ๋งํฌ */}
       <div className="switch-link">
-        ์•์ด๋””๊ฐ€ ์—์ผ์ ๊ฐ€์”? <a href="/signup">ํ์๊ฐ€์…</a>
+        ?•?ด?””๊ฐ? ?—?ผ? ๊ฐ??”? <a href="/signup">??๊ฐ??…</a>
       </div>
     </div>
   );

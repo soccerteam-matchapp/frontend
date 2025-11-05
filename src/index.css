@@ -1,81 +1,128 @@
+/* ============================= */
+/* 폰트 등록 */
+/* ============================= */
+@font-face {
+  font-family: 'Jalnan2';
+  src: url('./assets/fonts/Jalnan2.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* ============================= */
+/* 기본 리셋 및 전역 설정 */
+/* ============================= */
 * {
   box-sizing: border-box;
 }
+
 html,
 body,
 #root {
-  height: 100%;
   margin: 0;
-}
-body {
+  padding: 0;
+  height: 100%;
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Noto Sans KR', sans-serif;
   color: #111827;
-  background: #ffffff;
+  background: #f1f1f1;
 }
 
-/* ?�� ?���? */
-.screen {
-  max-width: 560px;
-  margin: 0 auto;
-  padding-top: 8px;
+/* ============================= */
+/* 모든 페이지 공통 앱 프레임 */
+/* ============================= */
+.app-wrapper {
+  width: 100%;
+  max-width: 430px;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 100vh;
+  background: #fafafa;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
-  min-height: 100dvh;
 }
 
-/* ?��?�� 문구 */
+/* 스크롤바 제거*/
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================= */
+/* 로그인 / 회원가입 화면 스타일 */
+/* ============================= */
+.screen {
+  flex: 1;
+  width: 100%;
+  max-width: 100%;
+  padding: 40px 24px 80px;
+  overflow-y: auto;
+  text-align: center;
+}
 
 .hand {
-  font-family: 'Jua', sans-serif;
-  font-weight: 400;
-  font-style: normal;
+  font-family: 'Jalnan2', sans-serif;
+  font-weight: 700;
   color: #c3c7d1;
-  font-size: 16px;
+  font-size: clamp(16px, 4vw, 18px);
   text-align: center;
   margin-top: 60px;
   margin-bottom: -2px;
   line-height: 0.5;
 }
 
-/* 브랜?�� 로고 */
-h1.brand {
-  font-family: 'Jua', sans-serif; /* ?��?�� 로고?�� ?��?�� */
-  font-weight: 800;
+h1.brand,
+h2.brand {
+  font-family: 'Jalnan2', sans-serif;
+  font-weight: 900;
   margin: 0;
-  color: rgb(249, 215, 104);
-  font-size: clamp(32px, 6vw, 60px);
+  color: #ffd555;
   text-align: center;
 }
+
+h1.brand {
+  font-size: clamp(40px, 8vw, 80px);
+}
+
+h2.brand {
+  font-size: clamp(18px, 4vw, 36px);
+}
+
 .dark {
   color: rgba(213, 163, 10, 0.829);
 }
+
 .sub-brand {
-  font-family: 'Jua', sans-serif; /* ?���???? Pretendard */
+  font-family: 'Jalnan2', sans-serif;
   text-align: center;
-  color: rgb(252, 215, 93);
-  font-weight: 400;
-  font-size: 20px;
+  color: #ffd555;
+  font-weight: 700;
+  font-size: clamp(18px, 5vw, 24px);
   margin-top: -4px;
 }
 
-/* ?�� */
 .form {
   display: grid;
   gap: 18px;
   margin-top: 24px;
+  width: 100%;
+  max-width: 100%;
+  text-align: left;
 }
+
 .field .label {
   display: block;
   font-size: 12px;
   color: #6b7280;
   margin-bottom: 6px;
 }
+
 .input-wrap {
   position: relative;
   border-bottom: 1px solid #d1d5db;
   padding-right: 28px;
 }
+
 .input-wrap input {
   width: 100%;
   padding: 10px 0;
@@ -86,7 +133,7 @@ h1.brand {
 }
 
 .input-wrap:focus-within {
-  border-bottom: 2px solid #fcef02; /* ?��?�� ?��커스?���? wrapper ?���? 밑줄 �?�? */
+  border-bottom: 2px solid #fcef02;
 }
 
 .clear {
@@ -100,23 +147,38 @@ h1.brand {
   color: #6b7280;
   cursor: pointer;
 }
+
+/* 중복확인 버튼 그룹 */
 .id-actions {
-  display: flex;
-  gap: 6px;
   position: absolute;
   right: 0;
   top: 50%;
   transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
+
+.id-actions .clear {
+  position: static;
+  transform: none;
+  font-size: 18px;
+}
+
 .check-btn {
   border: 0;
   background: none;
   font-size: 13px;
   color: #2563eb;
   cursor: pointer;
+  padding: 6px 8px;
 }
 
-/* ?��?�� 메시�? */
+.check-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .error {
   font-size: 12px;
   color: #ef4444;
@@ -138,6 +200,20 @@ h1.brand {
   cursor: pointer;
   padding-bottom: calc(14px + env(safe-area-inset-bottom));
 }
+
+.primary-btn-small {
+  width: 100%;
+  background: rgb(252, 215, 93); /* 메인 색상 */
+  color: #111827;
+  border: none;
+  border-radius: 10px;
+  padding: 0.5rem 0; /* 높이 조정 */
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15); /* 버튼 그림자 추가 */
+}
+
 .primary-btn:disabled {
   background: #f9e47b;
   color: #9ca3af;
@@ -145,34 +221,313 @@ h1.brand {
   opacity: 0.7;
 }
 
-/* 로그?��/?��?���??�� ?��?�� */
 .switch-link {
   text-align: center;
   font-size: 13px;
   color: #6b7280;
   margin-top: 16px;
 }
+
 .switch-link a {
   font-weight: 600;
   color: #111827;
   text-decoration: none;
 }
 
-/* 반응?�� */
-@media (min-width: 480px) {
-  .brand {
-    margin-bottom: 12px;
-  }
-  .form {
-    gap: 20px;
+/* ============================= */
+/* 홈(Home) 화면 */
+/* ============================= */
+.home-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  background-color: #fafafa;
+}
+
+.section-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.match-list {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  padding-left: 1rem;
+}
+
+.match-list::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================= */
+/* 메인 매치 카드(MainMatch) */
+/* ============================= */
+.main-match {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.match-header {
+  margin-bottom: 1rem;
+}
+
+.match-date {
+  font-weight: 800;
+  color: #ffbc00;
+  font-size: clamp(20px, 5vw, 30px);
+  margin-bottom: 10px;
+}
+
+.match-text {
+  font-weight: 800;
+  font-size: 25px;
+  color: #71727a;
+  margin-top: 4px;
+}
+
+.match-card {
+  position: relative;
+  background: linear-gradient(to bottom, #ffe781, #fff8cc);
+  border-radius: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 1rem 0.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  overflow: visible;
+}
+/* ============================= */
+/* 일반 매치 카드 (MatchCard) 스타일 추가 */
+/* ============================= */
+.match-card-small {
+  /* MatchCard.js의 인라인 스타일을 가져옴 */
+  width: 120px;
+  min-width: 120px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 0.8rem;
+  text-align: center;
+
+  /* 💡 아이콘 스타일 */
+  position: relative;
+  padding-top: 2.5rem; /* 아이콘 공간 확보 */
+}
+
+.match-card-small .circle-icon {
+  position: absolute;
+  top: 0.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem; /* VS 텍스트를 위한 간격 줄임 */
+  color: #999; /* VS 텍스트 색상 */
+  font-size: 0.8rem; /* VS 텍스트 크기 */
+  font-weight: 700;
+}
+
+.match-card-small .circle-icon .circle {
+  width: 24px;
+  height: 24px;
+  background-color: #f0f0f5; /* 연한 회색 배경 */
+  border-radius: 50%;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999; /* 회색 폰트 색상 */
+  font-weight: 700;
+}
+
+.match-card-small .small-date {
+  font-size: 0.85rem;
+  color: #444; /* 조금 더 진한 색상 */
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+.match-card-small .small-location {
+  font-size: 0.85rem;
+  color: #444;
+  font-weight: 500;
+  margin: 2px 0;
+}
+.match-card-small .small-count {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 0.8rem; /* 버튼과의 여백 */
+  font-weight: 600;
+}
+
+.dot-indicator {
+  text-align: center;
+  margin: 8px 0 16px;
+  line-height: 0; /* 줄 높이 제거 */
+}
+
+.dot-indicator .dot {
+  /* 기본 점 스타일 */
+  display: inline-block;
+  color: #ffd84d; /* 주 색상 */
+  opacity: 0.4; /* 비활성 점은 흐리게 */
+  font-size: 2.5rem;
+  cursor: pointer;
+  line-height: 0;
+  margin: 0 2px;
+  transition: opacity 0.3s;
+}
+
+.dot-indicator .dot.active {
+  /* 활성 점 스타일 */
+  opacity: 1; /* 현재 점은 진하게 */
+}
+
+.match-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0 0.5rem;
+}
+
+.team-side {
+  width: 30%;
+}
+
+.team-circle {
+  background: #d9d9d9;
+  color: #6c6c6c;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.4rem;
+  font-weight: 700;
+}
+
+.team-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #555;
+  margin-bottom: 0.4rem;
+}
+
+.team-side ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.team-side li {
+  font-size: 0.9rem;
+  color: #333;
+  line-height: 2.2;
+  font-weight: 600;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+  padding-left: 5px;
+  margin-bottom: 2px;
+}
+
+.team-side li:nth-child(even) {
+  /* 짝수 번째 줄 배경을 투명하게 하여 줄무늬 효과 극대화 */
+  background-color: transparent;
+}
+.match-center {
+  flex: 1;
+  text-align: center;
+  padding: 0 0.5rem;
+}
+
+.match-center h3 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-top: 2rem;
+  margin-bottom: 0;
+  color: #333;
+}
+
+.match-center p {
+  font-size: 0.8rem;
+  color: #555;
+  margin: 4px 0 0;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 2.2rem;
+  font-weight: 900;
+  cursor: pointer;
+  color: #5e5e61fb;
+}
+
+.arrow.left {
+  left: 0px;
+}
+
+.arrow.right {
+  right: 0px;
+}
+
+.arrow.disabled,
+.arrow:disabled {
+  color: #ccc; /* 연한 회색으로 변경 */
+  cursor: not-allowed;
+}
+
+.expand-area {
+  margin-top: 1rem;
+  padding-bottom: 0.5rem;
+}
+
+.expand-btn {
+  border: none;
+  border-radius: 18px;
+  background-color: #fff;
+  padding: 6px 16px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #444;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+
+/* ============================= */
+/* 반응형 설정 */
+/* ============================= */
+@media (max-width: 480px) {
+  .match-card {
+    width: 90%;
+    padding: 0.8rem;
   }
 }
+
 @media (min-width: 768px) {
   body {
     background: #f5f5f7;
   }
   .screen {
-    background: #fff;
     border-radius: 16px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
     padding: 24px 24px 28px;
@@ -180,6 +535,7 @@ h1.brand {
     margin-top: 24px;
   }
 }
+
 @media (min-width: 1200px) {
   .screen {
     max-width: 480px;

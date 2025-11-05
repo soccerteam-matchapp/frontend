@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { registerApi } from '../api/auth'; //새로 추가한 API 파일 임포트
 
 function validateId(id) {
   if (id.length < 4 || id.length > 12) return '아이디는 4~12자여야 합니다.';
@@ -17,27 +20,29 @@ function validatePw(pw) {
 }
 
 export default function Signup() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({ name: '', id: '', pw: '', pw2: '' });
   const [touched, setTouched] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState('');
   const [fieldErrors, setFieldErrors] = useState({});
 
-  const handleCheckId = async () => {
-    try {
-      await new Promise((r) => setTimeout(r, 500));
-      if (form.id === 'test123') {
-        setFieldErrors({ id: '이미 사용 중인 아이디입니다.' });
-      } else {
-        alert('사용 가능한 아이디입니다');
-      }
-    } catch (err) {
-      setFormError('서버 오류가 발생했습니다. 다시 시도해주세요.');
+  // 요청 취소(선택): 빠르게 페이지 이동 시 불필요 요청 중단
+  const controllerRef = useRef(null);
+  useEffect(() => () => controllerRef.current?.abort(), []);
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+    if (name === 'id') {
+      setFieldErrors((prev) => ({ ...prev, id: '' }));
     }
   };
 
-  const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-  const clear = (key) => setForm({ ...form, [key]: '' });
+  const clear = (key) => {
+    setForm((prev) => ({ ...prev, [key]: '' }));
+    setFieldErrors((prev) => ({ ...prev, [key]: '' }));
+  };
 
   const idError = validateId(form.id);
   const pwError = validatePw(form.pw);
@@ -54,13 +59,19 @@ export default function Signup() {
     form.pw2.trim() !== '';
 
   const canSubmit =
-    allFilled && !idError && !pwError && !pw2Error && !nameError;
+    allFilled &&
+    !idError &&
+    !pwError &&
+    !pw2Error &&
+    !nameError &&
+    !isSubmitting;
 
   const onBlur = (e) => {
     const { name } = e.target;
     setTouched((t) => ({ ...t, [name]: true }));
   };
 
+  // 서버 연동으로 변경: 회원가입
   const onSubmit = async (e) => {
     e.preventDefault();
     setFormError('');
@@ -68,16 +79,31 @@ export default function Signup() {
     setTouched({ name: true, id: true, pw: true, pw2: true });
     if (!canSubmit) return;
 
+    setIsSubmitting(true);
     try {
-      setIsSubmitting(true);
-      await new Promise((r) => setTimeout(r, 700));
-      if (form.id === 'test123') {
-        setFieldErrors({ id: '이미 사용 중인 아이디입니다.' });
-        return;
-      }
-      alert(`회원가입 완료: ${form.name}/${form.id}`);
+      controllerRef.current?.abort();
+      controllerRef.current = new AbortController();
+
+      // 서버로 보낼 payload 최소화
+      const payload = {
+        name: form.name.trim(),
+        id: form.id.trim().toLowerCase(),
+        password: form.pw,
+      };
+      await registerApi(payload, { signal: controllerRef.current.signal });
+      alert('회원가입이 완료되었습니다!');
+      navigate('/login', { replace: true });
     } catch (err) {
-      setFormError('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+      if (err.name === 'AbortError') return;
+
+      // 서버가 필드 단위 에러를 내려줄 수 있어 매핑 처리
+      // 예: { errors: { id: '이미 사용 중', password: '너무 약함' }, message: '검증 오류' }
+      if (err.fields) {
+        setFieldErrors((prev) => ({ ...prev, ...err.fields }));
+      }
+      setFormError(
+        err.message || '서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.'
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -87,10 +113,8 @@ export default function Signup() {
     <div className="screen">
       <div className="statusbar" />
 
-      {/* 상단 문구 */}
       <div className="hand">스포츠를 손쉽게</div>
 
-      {/* 브랜드 로고 */}
       <h1 className="brand">
         <span>S</span>
         <span className="dark">p</span>
@@ -102,14 +126,13 @@ export default function Signup() {
       </h1>
       <div className="sub-brand">스포츨리</div>
 
-      <form className="form" onSubmit={onSubmit}>
+      <form className="form" onSubmit={onSubmit} noValidate>
         {formError && (
-          <div className="form-error" role="alert">
+          <div className="form-error" role="alert" aria-live="assertive">
             {formError}
           </div>
         )}
 
-        {/* 이름 */}
         <label className="field">
           <span className="label">이름</span>
           <div className="input-wrap">
@@ -119,6 +142,7 @@ export default function Signup() {
               onChange={onChange}
               onBlur={onBlur}
               disabled={isSubmitting}
+              autoComplete="name"
             />
             {form.name && (
               <button
@@ -136,7 +160,6 @@ export default function Signup() {
           )}
         </label>
 
-        {/* 아이디 */}
         <label className="field">
           <span className="label">아이디</span>
           <div className="input-wrap">
@@ -148,27 +171,22 @@ export default function Signup() {
               disabled={isSubmitting}
               placeholder="영문/숫자 4~12자"
               autoComplete="username"
+              inputMode="text"
             />
             {form.id && (
-              <div className="id-actions">
-                <button
-                  type="button"
-                  className="clear"
-                  onClick={() => clear('id')}
-                  disabled={isSubmitting}
-                >
-                  ×
-                </button>
-                <button
-                  type="button"
-                  className="check-btn"
-                  onClick={handleCheckId}
-                >
-                  중복 확인
-                </button>
-              </div>
+              <button
+                type="button"
+                className="clear"
+                onClick={() => clear('id')}
+                disabled={isSubmitting}
+                aria-label="아이디 지우기"
+              >
+                ×
+              </button>
             )}
           </div>
+
+          {/* 서버/클라 검증 메시지 */}
           {touched.id && (fieldErrors.id || idError) && (
             <small className="error">{fieldErrors.id || idError}</small>
           )}
@@ -236,6 +254,7 @@ export default function Signup() {
           className="primary-btn"
           type="submit"
           disabled={!canSubmit || isSubmitting}
+          aria-busy={isSubmitting || undefined}
         >
           {isSubmitting ? '가입 중...' : '회원가입'}
         </button>
