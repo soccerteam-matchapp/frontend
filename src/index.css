@@ -1,6 +1,3 @@
-/* ============================= */
-/* 폰트 등록 */
-/* ============================= */
 @font-face {
   font-family: 'Jalnan2';
   src: url('./assets/fonts/Jalnan2.ttf') format('truetype');
@@ -20,7 +17,6 @@ body,
 #root {
   margin: 0;
   padding: 0;
-  height: 100%;
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Noto Sans KR', sans-serif;
   color: #111827;
@@ -31,16 +27,18 @@ body,
 /* 모든 페이지 공통 앱 프레임 */
 /* ============================= */
 .app-wrapper {
-  width: 100%;
-  max-width: 430px;
+  width: 393px;
+  max-width: 393px;
   margin-left: auto;
   margin-right: auto;
-  min-height: 100vh;
+  height: 703px;
+  min-height: 703px;
   background: #fafafa;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 /* 스크롤바 제거*/
@@ -51,6 +49,15 @@ body,
 /* ============================= */
 /* 로그인 / 회원가입 화면 스타일 */
 /* ============================= */
+.auth-page-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100vh;
+  z-index: 10;
+  background-color: white;
+}
 .screen {
   flex: 1;
   width: 100%;
@@ -81,7 +88,7 @@ h2.brand {
 }
 
 h1.brand {
-  font-size: clamp(40px, 8vw, 80px);
+  font-size: clamp(40px, 8vw, 60px);
 }
 
 h2.brand {
@@ -97,7 +104,7 @@ h2.brand {
   text-align: center;
   color: #ffd555;
   font-weight: 700;
-  font-size: clamp(18px, 5vw, 24px);
+  font-size: clamp(18px, 5vw, 22px);
   margin-top: -4px;
 }
 
@@ -203,15 +210,15 @@ h2.brand {
 
 .primary-btn-small {
   width: 100%;
-  background: rgb(252, 215, 93); /* 메인 색상 */
-  color: #111827;
+  background: rgb(252, 215, 93);
+  color: white;
   border: none;
-  border-radius: 10px;
-  padding: 0.5rem 0; /* 높이 조정 */
+  border-radius: 999px;
+  padding: 0.6rem 0;
   font-weight: 700;
   font-size: 0.9rem;
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15); /* 버튼 그림자 추가 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .primary-btn:disabled {
@@ -242,171 +249,575 @@ h2.brand {
   height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: #fafafa;
 }
 
-.home-main {
-  flex: 1;
-  overflow-y: auto;
+/* --- 홈 화면 헤더 스타일 --- */
+.home-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 51px;
   padding: 1rem;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.header-brand {
+  font-size: 1.5rem;
+  font-family: 'Jalnan2', sans-serif;
+  font-weight: 900;
+  margin: 0;
+  color: #ffd555;
+}
+.header-brand .dark {
+  color: rgba(213, 163, 10, 0.829);
+}
+
+.notification-button {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  padding: 0;
+  margin: 0;
+  color: #0f0b00; /* 종 아이콘 색상 */
+}
+
+/* Home Main 콘텐츠 영역 */
+.home-main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-y: auto;
+  padding: 0; /* 내부 요소가 패딩을 갖도록 설정 */
   background-color: #fafafa;
 }
 
 .section-title {
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   color: #666;
-  margin-bottom: 0.5rem;
-  display: inline-block;
-  padding: 0.2rem 0.5rem;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #111827;
+  margin: 0;
+  display: inline;
 }
 
 .match-list {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
   overflow-x: auto;
   padding-bottom: 10px;
   padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .match-list::-webkit-scrollbar {
   display: none;
 }
 
+.dot-indicator {
+  text-align: center;
+  margin: 4px 0 16px;
+  line-height: 0;
+}
+
+.dot-indicator .dot {
+  display: inline-block;
+
+  /* 기본 비활성 점 색상: 연한 회색 */
+  color: #dcdce6;
+  opacity: 1; /* 투명도 대신 색상으로 구분 */
+  font-size: 1.5rem; /* 점의 크기 */
+  cursor: pointer;
+  line-height: 0;
+  margin: 0 4px; /* 점 간격 넓게 조정 */
+  transition: color 0.3s;
+}
+
+.dot-indicator .dot.active {
+  color: #dfb640;
+  opacity: 1;
+}
+
+/* ============================= */
+/* 알림 화면 (Notification Screen) */
+/* ============================= */
+.notification-screen {
+  background-color: white;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* --- Header --- */
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 51px;
+  padding: 1rem;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  z-index: 20;
+}
+
+.back-arrow {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #333;
+  cursor: pointer;
+  padding: 0 5px;
+}
+
+.header-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+  color: #111827;
+}
+
+/* --- List Items --- */
+.notification-list-container {
+  padding: 0;
+}
+
+.notification-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  background-color: white;
+}
+
+.notification-button {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  padding: 0;
+  margin: 0;
+  color: #0a0801;
+}
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+/* 아이콘 원형 배경 */
+.notif-icon-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* 아이콘 배경색 지정  */
+.type-match_request {
+  background-color: #f7e09e;
+}
+.type-join_approval {
+  background-color: #d8d8e6;
+  color: #555;
+}
+.type-captain_promotion {
+  background-color: #f0c34e;
+}
+.type-match_success {
+  background-color: #fff0d5;
+}
+
+.notif-content {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.notif-message {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.notif-action {
+  font-size: 0.85rem;
+  color: #888;
+  margin: 0;
+}
+
+.notif-time {
+  font-size: 0.75rem;
+  color: #ccc;
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+/* 읽지 않은 알림 (기본 스타일) */
+.notification-item.unread {
+  background-color: #ffffff; /* 흰색 또는 밝은 색 */
+  color: #333333; /* 진한 글씨색 */
+}
+
+/* 읽은 알림 스타일 */
+.notification-item.read {
+  background-color: #f5f5f5; /* 연한 회색 배경 */
+  color: #aaaaaa; /* 회색 글씨 */
+  opacity: 1; /* 전체적인 투명도 약간 낮춤 */
+}
+
+/* 읽은 알림의 내용도 회색으로 */
+.notification-item.read .notif-message,
+.notification-item.read .notif-action,
+.notification-item.read .notif-time {
+  color: #aaaaaa;
+}
+
+/* 읽은 알림 아이콘도 흐릿하게 */
+.notification-item.read .notif-icon-circle {
+  background-color: #dddddd;
+  color: #bbbbbb;
+}
+
+/* ============================= */
+/* 모달 공통 스타일 */
+/* ============================= */
+
+/* 💡 어두운 배경 오버레이 */
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 99; /* 모든 요소 위에 위치 */
+}
+
+/* 모달 컨테이너 (팝업 창 자체) */
+.modal-container {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%); /* 정확히 중앙 정렬 */
+  z-index: 100;
+  width: 300px;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* --- 가입 수락 모달 (위쪽) --- */
+.join-modal {
+  top: 30%; /* 화면 상단에 위치 */
+  background: #f7f7f7;
+}
+.join-modal .modal-main-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 5px 0;
+  color: #333;
+}
+.join-modal .user-name-text {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+/* --- 매칭 수락 모달 (아래쪽) --- */
+.match-modal {
+  top: 70%; /* 화면 하단에 위치 */
+  background: #e0e0e0;
+}
+.match-modal .modal-info-title {
+  font-weight: 800;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: #444;
+}
+.match-modal .modal-main-text {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 5px 0;
+  color: #111;
+}
+
+/* --- 공통 스타일 --- */
+.modal-question {
+  font-size: 1rem;
+  margin-top: 15px;
+  color: #666;
+}
+.modal-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+.modal-actions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-accept {
+  background-color: #ffd555;
+  color: #333;
+}
+.btn-reject {
+  background-color: #f0f0f0;
+  color: #666;
+}
+.modal-type-label {
+  font-size: 0.7rem;
+  color: #999;
+  margin-bottom: 10px;
+}
+
 /* ============================= */
 /* 메인 매치 카드(MainMatch) */
 /* ============================= */
 .main-match {
+  height: auto;
+  width: 100%;
+  padding: 0 1rem;
+  margin: 0;
   text-align: center;
-  margin-bottom: 2rem;
 }
-
+.main-match-area-wrapper {
+  height: 280px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 수직 중앙 정렬 */
+  align-items: center; /* 수평 중앙 정렬 */
+}
 .match-header {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
 }
 
 .match-date {
   font-weight: 800;
-  color: #ffbc00;
-  font-size: clamp(20px, 5vw, 30px);
-  margin-bottom: 10px;
+  color: #ffd555;
+  font-size: 20px;
+  margin-bottom: 0px;
 }
 
 .match-text {
-  font-weight: 800;
-  font-size: 25px;
-  color: #71727a;
+  font-weight: 700;
+  font-size: 24px;
+  color: #878a97;
   margin-top: 4px;
 }
 
 .match-card {
   position: relative;
-  background: linear-gradient(to bottom, #ffe781, #fff8cc);
-  border-radius: 20px;
+  /* 배경 그라데이션 적용: #FFE563 -> #FFD555 */
+  background: linear-gradient(to bottom, #ffe563, #ffd555);
+  border-radius: 10px;
   width: 100%;
   box-sizing: border-box;
   margin: 0 auto;
-  padding: 1rem 0.5rem;
+  padding: 1.5rem 0;
+  padding-bottom: 0;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   overflow: visible;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
+
+/* --- "진행 중인 매치" 섹션 헤더 --- */
+.section-header {
+  padding: 0.3rem 0.8rem;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  background-color: white;
+  border: 2px solid #dfb640;
+  border-radius: 999px;
+  text-align: left;
+  display: inline-block;
+  margin-left: 1rem;
+}
+.no-matches-message {
+  text-align: center;
+  padding: 40px 1rem;
+  margin: 0 1rem; /* 메인 매치 카드와 비슷한 여백을 확보 */
+  min-height: 100px;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  background-color: #f7f7f7;
+  color: #666;
+}
+
+.no-matches-message h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #444;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+.no-matches-message p {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.no-matches-message-wrapper {
+  /* Wrapper의 높이를 100%로 설정하여 부모(main-match-area-wrapper)의 높이를 모두 채움. */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* ============================= */
 /* 일반 매치 카드 (MatchCard) 스타일 추가 */
 /* ============================= */
+.sub-match-section {
+  background-color: #edeff4; /* 회색 배경색 적용 */
+  margin-top: 0.5rem;
+  padding: 0.5rem 0; /* 상하 패딩 추가 (섹션 구분) */
+  padding-bottom: 1rem;
+}
 .match-card-small {
-  /* MatchCard.js의 인라인 스타일을 가져옴 */
-  width: 120px;
-  min-width: 120px;
+  width: 112px;
+  min-width: 112px;
   background: white;
-  border-radius: 16px;
+  border-radius: 18px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  padding: 0.8rem;
+  padding: 0.8rem 0.6rem;
+  padding-top: 3rem;
+  padding-bottom: 0.5rem;
   text-align: center;
-
-  /* 💡 아이콘 스타일 */
   position: relative;
-  padding-top: 2.5rem; /* 아이콘 공간 확보 */
+  z-index: 1;
+  margin-bottom: 0.5rem;
 }
 
 .match-card-small .circle-icon {
   position: absolute;
-  top: 0.8rem;
+  top: 1rem;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 10;
   display: flex;
   align-items: center;
-  gap: 0.3rem; /* VS 텍스트를 위한 간격 줄임 */
-  color: #999; /* VS 텍스트 색상 */
-  font-size: 0.8rem; /* VS 텍스트 크기 */
+  gap: 0.3rem;
+  color: #999;
+  font-size: 0.8rem;
   font-weight: 700;
+  margin-bottom: 0.8rem;
 }
 
 .match-card-small .circle-icon .circle {
   width: 24px;
   height: 24px;
-  background-color: #f0f0f5; /* 연한 회색 배경 */
+  background-color: #f0f0f5;
   border-radius: 50%;
   font-size: 0.8rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #999; /* 회색 폰트 색상 */
+  color: #999;
   font-weight: 700;
 }
 
 .match-card-small .small-date {
   font-size: 0.85rem;
-  color: #444; /* 조금 더 진한 색상 */
-  margin-top: 0.5rem;
-  font-weight: 600;
+  color: #878a97;
+  margin-top: 0.2rem;
+  font-weight: 500;
 }
 .match-card-small .small-location {
   font-size: 0.85rem;
-  color: #444;
+  color: #878a97;
   font-weight: 500;
-  margin: 2px 0;
+  margin: 0.2rem 0;
 }
 .match-card-small .small-count {
-  font-size: 0.8rem;
-  color: #666;
-  margin-bottom: 0.8rem; /* 버튼과의 여백 */
-  font-weight: 600;
+  font-size: 0.85rem;
+  color: #878a97;
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+}
+.match-card-small .primary-btn-small {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: white;
+  margin: 0.2rem 0;
+  margin-top: 0.6rem;
+  line-height: 1.2;
 }
 
-.dot-indicator {
-  text-align: center;
-  margin: 8px 0 16px;
-  line-height: 0; /* 줄 높이 제거 */
+.match-card-small .small-date,
+.match-card-small .small-location,
+.match-card-small .small-count {
+  /*  텍스트 줄 간격 조정으로 뭉침 현상 해결 */
+  font-size: 0.85rem;
+  color: #878a97;
+  line-height: 1.2;
+  margin-top: 0.1rem; /*  텍스트 간 위쪽 여백 */
+  margin-bottom: 0.1rem;
+  white-space: normal;
+  overflow: visible;
 }
 
-.dot-indicator .dot {
-  /* 기본 점 스타일 */
-  display: inline-block;
-  color: #ffd84d; /* 주 색상 */
-  opacity: 0.4; /* 비활성 점은 흐리게 */
-  font-size: 2.5rem;
-  cursor: pointer;
-  line-height: 0;
-  margin: 0 2px;
-  transition: opacity 0.3s;
-}
+/* ============================= */
+/* 메인 매치 카드 내부 (팀 목록, 중앙) */
+/* ============================= */
 
-.dot-indicator .dot.active {
-  /* 활성 점 스타일 */
-  opacity: 1; /* 현재 점은 진하게 */
-}
-
-.match-content {
+/*  상단 정보 영역 (팀명, 서클, VS 제목) */
+.match-info-top {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 0 0.5rem;
+  padding: 0 10px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+/* 줄무늬 배경 영역 스타일 */
+.match-stripes-area {
+  width: 100%;
+  height: auto !important;
+  overflow: hidden;
+
+  background: repeating-linear-gradient(
+    to bottom,
+    #dfb640,
+    #dfb640 30px,
+    #f0c549 30px,
+    #f0c549 60px
+  );
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  padding-bottom: 0;
+  flex-grow: 1;
 }
 
 .team-side {
-  width: 30%;
+  width: 33%;
+  flex-shrink: 0;
+  text-align: center;
 }
 
 .team-circle {
@@ -427,59 +838,65 @@ h2.brand {
   font-weight: 700;
   color: #555;
   margin-bottom: 0.4rem;
+  white-space: normal;
 }
 
 .team-side ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  background: transparent;
 }
 
 .team-side li {
   font-size: 0.9rem;
   color: #333;
-  line-height: 2.2;
+  line-height: 30px;
   font-weight: 600;
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 4px;
-  padding-left: 5px;
-  margin-bottom: 2px;
+  background-color: transparent !important;
+  border-radius: 0;
+  padding: 0 5px;
+  margin-bottom: 0;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.team-side li:nth-child(even) {
-  /* 짝수 번째 줄 배경을 투명하게 하여 줄무늬 효과 극대화 */
-  background-color: transparent;
-}
 .match-center {
-  flex: 1;
+  width: 33%;
+  flex: none;
   text-align: center;
-  padding: 0 0.5rem;
+  padding: 0 5px;
 }
 
 .match-center h3 {
-  font-size: 1.4rem;
-  font-weight: 800;
-  margin-top: 2rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
   margin-bottom: 0;
-  color: #333;
+  color: white;
 }
 
 .match-center p {
-  font-size: 0.8rem;
-  color: #555;
+  font-size: 0.9rem;
+  color: white;
+  white-space: nowrap;
   margin: 4px 0 0;
 }
 
+/* --- 캐러셀 화살표 (Arrow) --- */
 .arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
-  font-size: 2.2rem;
+  font-size: 2.5rem;
   font-weight: 900;
   cursor: pointer;
   color: #5e5e61fb;
+  z-index: 10;
 }
 
 .arrow.left {
@@ -492,25 +909,49 @@ h2.brand {
 
 .arrow.disabled,
 .arrow:disabled {
-  color: #ccc; /* 연한 회색으로 변경 */
+  color: #ccc;
   cursor: not-allowed;
 }
 
-.expand-area {
-  margin-top: 1rem;
-  padding-bottom: 0.5rem;
+/* --- 펼치기 버튼 영역 --- */
+.expand-area-wrapper {
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+  padding-bottom: 15px;
 }
 
 .expand-btn {
   border: none;
-  border-radius: 18px;
-  background-color: #fff;
+  border-radius: 999px; /* 둥글게 수정 */
+  background-color: white;
   padding: 6px 16px;
   font-weight: 600;
   font-size: 0.9rem;
   color: #444;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
   cursor: pointer;
+  min-width: 100px;
+  position: relative;
+  z-index: 5;
+}
+
+/* 하단 페이드 오버레이 스타일 */
+.fade-overlay-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  pointer-events: none;
+  height: 60px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  pointer-events: none;
+  border-radius: 0 0 10px 10px;
+  background: linear-gradient(to top, white 30%, transparent 100%);
 }
 
 /* ============================= */

@@ -1,4 +1,10 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 export default function Header() {
+  const navigate = useNavigate();
+  const goToNotifications = () => {
+    navigate('/notifications');
+  };
   return (
     <header
       style={{
@@ -19,7 +25,13 @@ export default function Header() {
         <span className="dark">l</span>
         <span>y</span>
       </h2>{' '}
-      <span style={{ fontSize: '1.3rem' }}>🔔</span>
+      <button
+        className="notification-button"
+        onClick={goToNotifications}
+        aria-label="알림 페이지로 이동"
+      >
+        🔔{' '}
+      </button>{' '}
     </header>
   );
 }

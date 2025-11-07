@@ -41,7 +41,7 @@ const team3 = {
   members: [
     '메시',
     '호날두',
-    '반 페르시',
+    '반데사르',
     '루니',
     '벨링엄',
     '반 다이크',
@@ -62,7 +62,7 @@ const mainMatchesData = [
     membersA: team1.members,
     teamB: team2.name,
     membersB: team2.members,
-  },
+  }, // 2. (팀 1 vs 팀 3) 매치
   {
     id: 2,
     date: '11월 14일 15:00',
@@ -71,7 +71,7 @@ const mainMatchesData = [
     membersA: team1.members,
     teamB: team3.name,
     membersB: team3.members,
-  },
+  }, // 3. (팀 2 vs 팀 3) 매치
   {
     id: 3,
     date: '11월 15일 18:00',
@@ -91,6 +91,7 @@ export default function Home() {
   //비활성화 조건 계산
   const isFirst = currentIndex === 0;
   const isLast = currentIndex === totalMatches - 1;
+  const hasMatches = totalMatches > 0;
 
   //다음/이전 매치로 이동하는 함수
   const handleNext = () => {
@@ -115,20 +116,38 @@ export default function Home() {
       <Header />
 
       <main className="home-main">
-        <MainMatchCard
-          matchData={currentMatch}
-          currentIndex={currentIndex}
-          totalMatches={totalMatches}
-          onNext={handleNext}
-          onPrev={handlePrev}
-        />
+        {hasMatches ? (
+          <MainMatchCard
+            matchData={currentMatch}
+            currentIndex={currentIndex}
+            totalMatches={totalMatches}
+            onNext={handleNext}
+            onPrev={handlePrev}
+            isPrevDisabled={isFirst}
+            isNextDisabled={isLast}
+          />
+        ) : (
+          <div className="no-matches-message-wrapper">
+            <div className="no-matches-message">
+              <h2>예정된 매치가 없어요!</h2>
+              <p>매치에 참여해보세요</p>
+            </div>
+          </div>
+        )}
 
         {/* --- 진행 중인 매치 섹션 --- */}
-        <h2 className="section-title">진행 중인 매치</h2>
-        <div className="match-list">
-          {subMatchesData.map((match) => (
-            <MatchCard key={match.id} matchId={match.id} matchData={match} />
-          ))}
+        <div style={{ flexGrow: 1 }}></div>
+        <div className="sub-match-section">
+          <div className="section-header">
+            <h2 className="section-title">진행 중인 매치</h2>
+          </div>
+
+          <div className="match-list">
+            {subMatchesData.map((match) => (
+              // MatchCard에 matchData Prop을 전달하도록 수정
+              <MatchCard key={match.id} matchId={match.id} matchData={match} />
+            ))}
+          </div>
         </div>
       </main>
     </div>
