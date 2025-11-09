@@ -21,7 +21,7 @@ export default function JoinModal({ data, onClose, onAction }) {
 
   return (
     <div className="modal-container join-modal">
-      <p className="modal-type-label">가입 수락/거절 모달</p>
+      <p className="modal-type-label">가입 수락/거절</p>
       <div className="modal-content-area">
         <p className="modal-main-text team-name-text">{teamName}</p>
         <p className="modal-main-text user-name-text">{userName}님</p>

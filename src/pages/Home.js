@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import MainMatchCard from '../components/MainMatchCard';
 import MatchCard from '../components/MatchCard';
 import '../index.css';
+//import { getNotificationStatusApi } from '../api/notification'; //알림 상태를 체크하는 API 함수
 
 const team1 = {
   name: '혜태 타이거즈',
@@ -85,6 +86,26 @@ const mainMatchesData = [
 
 export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isNewNotification, setIsNewNotification] = useState(true); /* //임시 상태
+  useEffect(() => {
+    const fetchNotificationStatus = async () => {
+      try {
+        // getNotificationStatusApi 함수는 src/api/notification 파일에 구현 필요
+        const response = await getNotificationStatusApi(); 
+        setIsNewNotification(response.data.hasUnread); // 서버 응답 구조에 맞게 수정 필요
+      } catch (error) {
+        console.error("알림 상태를 가져오는데 실패했습니다:", error);
+      }
+    };
+  
+    fetchNotificationStatus();
+    // 1분마다 갱신 
+    const intervalId = setInterval(fetchNotificationStatus, 60000); 
+    return () => clearInterval(intervalId);
+  }, []);
+  */ //
+
+  // 서버 연결 후 주석 제거 예정.
   //매치 수
   const totalMatches = mainMatchesData.length;
   const currentMatch = mainMatchesData[currentIndex];
@@ -144,7 +165,6 @@ export default function Home() {
 
           <div className="match-list">
             {subMatchesData.map((match) => (
-              // MatchCard에 matchData Prop을 전달하도록 수정
               <MatchCard key={match.id} matchId={match.id} matchData={match} />
             ))}
           </div>

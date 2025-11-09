@@ -22,7 +22,7 @@ export default function MatchModal({ data, onClose, onAction }) {
 
   return (
     <div className="modal-container match-modal">
-      <p className="modal-type-label">매칭 수락/거절 모달</p>
+      <p className="modal-type-label">매칭 수락/거절</p>
       <div className="modal-content-area match-area">
         <h3 className="modal-info-title">매칭 정보</h3>
         <p className="modal-main-text team-name-text">{teamName}</p>

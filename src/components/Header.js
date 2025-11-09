@@ -1,10 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
 export default function Header() {
   const navigate = useNavigate();
   const goToNotifications = () => {
     navigate('/notifications');
   };
+  const isNewNotification = true; //서버 연결 전 임시상태
   return (
     <header
       style={{
@@ -24,14 +27,16 @@ export default function Header() {
         <span>t</span>
         <span className="dark">l</span>
         <span>y</span>
-      </h2>{' '}
+      </h2>
       <button
         className="notification-button"
         onClick={goToNotifications}
         aria-label="알림 페이지로 이동"
       >
-        🔔{' '}
-      </button>{' '}
+        <FontAwesomeIcon icon={faBell} size="lg" />
+        {isNewNotification && <div className="notification-badge" />}{' '}
+        {/*알림이 있을 때만 뱃지 렌더링*/}
+      </button>
     </header>
   );
 }

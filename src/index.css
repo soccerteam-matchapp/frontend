@@ -127,7 +127,7 @@ h2.brand {
 .input-wrap {
   position: relative;
   border-bottom: 1px solid #d1d5db;
-  padding-right: 28px;
+  padding-right: 120px;
 }
 
 .input-wrap input {
@@ -400,15 +400,29 @@ h2.brand {
 }
 
 .notification-button {
-  background: none;
-  border: none;
-  outline: none;
+  position: relative;
   cursor: pointer;
-  font-size: 1.5rem;
-  padding: 0;
-  margin: 0;
-  color: #0a0801;
+  font-size: 1.2rem;
 }
+
+.notification-button svg {
+  display: block; /* SVG를 블록 요소로 취급하여 포지션 안정화 */
+  color: #b0acac; /* 원하는 아이콘 색상 */
+}
+
+.notification-badge {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+
+  background-color: #ffb6a1;
+  border: 1px solid white;
+}
+
 .notification-item:last-child {
   border-bottom: none;
 }

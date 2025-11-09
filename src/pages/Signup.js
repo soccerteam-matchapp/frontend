@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { registerApi } from '../api/auth'; //새로 추가한 API 파일 임포트
+// import { checkIdApi } from '../api/auth'; // 중복확인 API가 있다면 임포트, 서버 연결 후 주석 제거
 
 function validateId(id) {
   if (id.length < 4 || id.length > 12) return '아이디는 4~12자여야 합니다.';
@@ -26,8 +27,10 @@ export default function Signup() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState('');
   const [fieldErrors, setFieldErrors] = useState({});
+  const [isIdChecked, setIsIdChecked] = useState(false); //아이디 중복확인 상태
+  const [isIdChecking, setIsIdChecking] = useState(false); // 중복확인 로딩 상태
 
-  // 요청 취소(선택): 빠르게 페이지 이동 시 불필요 요청 중단
+  // 요청 취소: 빠르게 페이지 이동 시 불필요 요청 중단
   const controllerRef = useRef(null);
   useEffect(() => () => controllerRef.current?.abort(), []);
 
@@ -36,12 +39,16 @@ export default function Signup() {
     setForm((prev) => ({ ...prev, [name]: value }));
     if (name === 'id') {
       setFieldErrors((prev) => ({ ...prev, id: '' }));
+      setIsIdChecked(false);
     }
   };
 
   const clear = (key) => {
     setForm((prev) => ({ ...prev, [key]: '' }));
     setFieldErrors((prev) => ({ ...prev, [key]: '' }));
+    if (key === 'id') {
+      setIsIdChecked(false);
+    }
   };
 
   const idError = validateId(form.id);
@@ -51,6 +58,34 @@ export default function Signup() {
       ? '비밀번호가 일치하지 않습니다.'
       : '';
   const nameError = form.name.trim() === '' ? '이름을 입력하세요.' : '';
+  //아이디 중복확인 함수 (임시 로직)
+  const onCheckId = async () => {
+    // 클라이언트 유효성 검사 통과 여부 확인
+    if (idError) {
+      setTouched((t) => ({ ...t, id: true }));
+      return;
+    }
+
+    setIsIdChecking(true);
+    setFormError('');
+    setFieldErrors((p) => ({ ...p, id: '' }));
+
+    try {
+      //(임시) 서버 통신 시뮬레이션: 0.8초 지연
+      await new Promise((resolve) => setTimeout(resolve, 800)); //실제 API 호출: await checkIdApi(form.id); //성공 처리 (사용 가능)
+      setIsIdChecked(true);
+    } catch (err) {
+      //실패 처리 (중복 또는 서버 오류)
+      setIsIdChecked(false);
+      if (err.message === 'Duplicate ID') {
+        setFieldErrors((p) => ({ ...p, id: '이미 사용 중인 아이디입니다.' }));
+      } else {
+        setFormError(err.message || '중복확인 중 서버 오류가 발생했습니다.');
+      }
+    } finally {
+      setIsIdChecking(false);
+    }
+  };
 
   const allFilled =
     form.name.trim() !== '' &&
@@ -64,7 +99,8 @@ export default function Signup() {
     !pwError &&
     !pw2Error &&
     !nameError &&
-    !isSubmitting;
+    !isSubmitting &&
+    isIdChecked;
 
   const onBlur = (e) => {
     const { name } = e.target;
@@ -81,23 +117,23 @@ export default function Signup() {
 
     setIsSubmitting(true);
     try {
-      controllerRef.current?.abort();
-      controllerRef.current = new AbortController();
+      //controllerRef.current?.abort(); //서버 연결 후 주석 제거.
+      //controllerRef.current = new AbortController(); //동일.
+
+      await new Promise((resolve) => setTimeout(resolve, 500)); //서버 연결 전 로딩 상태 테스트용
 
       // 서버로 보낼 payload 최소화
-      const payload = {
+      /*const payload = {
         name: form.name.trim(),
         id: form.id.trim().toLowerCase(),
         password: form.pw,
       };
-      await registerApi(payload, { signal: controllerRef.current.signal });
-      alert('회원가입이 완료되었습니다!');
+      await registerApi(payload, { signal: controllerRef.current.signal });*/ //임시 주석처리
+      alert('회원가입이 완료되었습니다!'); //임시
       navigate('/login', { replace: true });
     } catch (err) {
       if (err.name === 'AbortError') return;
 
-      // 서버가 필드 단위 에러를 내려줄 수 있어 매핑 처리
-      // 예: { errors: { id: '이미 사용 중', password: '너무 약함' }, message: '검증 오류' }
       if (err.fields) {
         setFieldErrors((prev) => ({ ...prev, ...err.fields }));
       }
@@ -161,14 +197,34 @@ export default function Signup() {
         </label>
 
         <label className="field">
-          <span className="label">아이디</span>
+          <div className="label-group">
+            <span className="label">아이디</span>
+            <button
+              type="button"
+              className="check-btn"
+              onClick={onCheckId}
+              disabled={
+                !form.id ||
+                !!idError ||
+                isSubmitting ||
+                isIdChecking ||
+                isIdChecked
+              }
+            >
+              {isIdChecking
+                ? '확인 중'
+                : isIdChecked
+                ? '확인 완료'
+                : '중복확인'}
+            </button>
+          </div>
           <div className="input-wrap">
             <input
               name="id"
               value={form.id}
               onChange={onChange}
               onBlur={onBlur}
-              disabled={isSubmitting}
+              disabled={isSubmitting || isIdChecking}
               placeholder="영문/숫자 4~12자"
               autoComplete="username"
               inputMode="text"
@@ -178,7 +234,7 @@ export default function Signup() {
                 type="button"
                 className="clear"
                 onClick={() => clear('id')}
-                disabled={isSubmitting}
+                disabled={isSubmitting || isIdChecking}
                 aria-label="아이디 지우기"
               >
                 ×
@@ -186,10 +242,14 @@ export default function Signup() {
             )}
           </div>
 
-          {/* 서버/클라 검증 메시지 */}
-          {touched.id && (fieldErrors.id || idError) && (
+          {/* 서버/클라 검증 메시지 및 중복확인 안내 */}
+          {touched.id && (fieldErrors.id || idError) ? (
             <small className="error">{fieldErrors.id || idError}</small>
-          )}
+          ) : touched.id && isIdChecked && !fieldErrors.id ? (
+            <small className="success">사용 가능한 아이디입니다.</small>
+          ) : touched.id && form.id && !isIdChecked ? (
+            <small className="info">중복확인 버튼을 눌러주세요.</small>
+          ) : null}
         </label>
 
         {/* 비밀번호 */}
@@ -202,7 +262,7 @@ export default function Signup() {
               value={form.pw}
               onChange={onChange}
               onBlur={onBlur}
-              disabled={isSubmitting}
+              disabled={isSubmitting || isIdChecking}
               placeholder="영문+숫자 8~16자"
               autoComplete="new-password"
             />
@@ -211,7 +271,7 @@ export default function Signup() {
                 type="button"
                 className="clear"
                 onClick={() => clear('pw')}
-                disabled={isSubmitting}
+                disabled={isSubmitting || isIdChecking}
               >
                 ×
               </button>

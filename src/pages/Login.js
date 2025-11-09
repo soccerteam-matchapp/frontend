@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginApi } from '../api/auth';
+
 export default function Login() {
   const navigate = useNavigate();
   const [id, setId] = useState('');
@@ -11,18 +12,23 @@ export default function Login() {
   const onSubmit = async (e) => {
     e.preventDefault();
     setLoginError('');
-    if (!id || !pw) return;
+    if (!id || !pw) {
+      setLoginError('아이디와 비밀번호를 입력해주세요.');
+      return;
+    }
 
-    // 데이터 구조 일치: API는 id와 password를 받도록 구현됨
     const payload = { id: id.trim(), password: pw };
 
     setLoading(true);
     try {
       // 실제 서버 API 호출
-      const response = await loginApi(payload); // 인증 정보 저장 (토큰 저장)
+      //const response = await loginApi(payload); // 인증 정보 저장 (토큰 저장)
       // 서버 응답 구조가 { data: { accessToken: "..." } } 이므로, 이렇게 접근
-      const token = response.data.accessToken;
-      localStorage.setItem('userToken', token); // 💡 5. 홈 화면으로 이동
+      await new Promise((resolve) => setTimeout(resolve, 500)); //로딩 상태 테스트용 임시 코드
+      const token = 'MOCK_JWT_TOKEN_FOR_TESTING'; //임시 토큰 저장 시뮬레이션
+      localStorage.setItem('userToken', token);
+
+      //const token = response.data.accessToken; //서버 연결 후 주석 제거
       navigate('/home', { replace: true });
     } catch (error) {
       // 에러 처리 (API 모듈에서 던진 Error 객체를 받음)
@@ -52,6 +58,13 @@ export default function Login() {
       <div className="sub-brand">스포츨리</div>
 
       <form className="form" onSubmit={onSubmit}>
+        {loginError && (
+          <div
+            style={{ color: 'red', marginBottom: '10px', textAlign: 'center' }}
+          >
+            {loginError}
+          </div>
+        )}
         <label className="field">
           <span className="label">아이디</span>
           <div className="input-wrap">
