@@ -1,0 +1,32 @@
+/* src/index.css */
+/* 딱 '각 페이지 CSS'만 가져온다 — Vite 기본 데모 스타일 제거 */
+@import "./styles/base.css";
+@import "./styles/auth.css";
+@import "./styles/team.css";
+@import "./styles/match.css";
+@import "./styles/notification.css";
+@import "./styles/home.css";
+
+.notification-button {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.bell-icon {
+  width: 22px;
+  height: 22px;
+  color: #111;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 7px;
+  height: 7px;
+  background: #ef4444;
+  border-radius: 50%;
+  border: 1px solid #fff;
+}

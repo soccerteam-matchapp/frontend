@@ -1,0 +1,20 @@
+/* src/styles/base.css */
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #f2f2f2;
+  }
+
+  body {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* 공통 루트는 393px로 고정해서 아이폰 화면처럼 보이게 */
+  #root {
+    width: 393px;
+    min-height: 100vh;
+    background: #f2f2f2;
+  }
+}

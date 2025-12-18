@@ -1,0 +1,975 @@
+/* src/styles/match.css */
+
+@layer components {
+  /* 앱 전체 컨테이너 (아이폰 폭 393 기준) */
+  .app-root {
+    width: 393px;
+    min-height: 100vh;
+    background: #f2f2f2;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin: 0 auto;
+  }
+
+  /* 아이폰 safe area 위쪽 여백 처리 */
+  .safe-top {
+    height: env(safe-area-inset-top, 0);
+    height: constant(safe-area-inset-top, 0);
+    background: transparent;
+  }
+
+  /* (탑 영역 – 쓸 일 있으면 씀) */
+  .top-frame {
+    width: 100%;
+    background: #f2f2f2;
+  }
+
+  /* 매칭 화면 본문 */
+  .match-screen {
+    width: 393px;
+    flex: 1;
+    background: #f2f2f2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 18px;
+    padding-bottom: 110px; /* bottom nav 자리 */
+    box-sizing: border-box;
+  }
+
+  /* 필터줄 (내가 올린 매칭만 보기 있는 줄) */
+  .match-filterbar {
+    width: 100%;
+    background: #e1e4ea;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    box-sizing: border-box;
+  }
+
+  .match-filterbar-box {
+    width: 50%;
+    max-width: 210px;
+    height: 30px;
+    background: #d1d4da;
+    border-radius: 4px;
+  }
+
+  .match-filter-check {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #363636;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .match-filter-check-box {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1px solid #f6cd4c;
+    background: #f6cd4c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #fff;
+  }
+
+  .match-filter-check-box.is-off {
+    background: #ffffff;
+    border-color: #d0d3d8;
+    color: transparent;
+  }
+
+  /* 매칭 카드 리스트 */
+  .match-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .match-card {
+    width: 356px;
+    height: 113px;
+    background: #ffffff;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+  }
+
+  /* 왼쪽: 팀 박스 */
+  .match-card__team {
+    width: 78px;
+    height: 113px;
+    background: #ffffff;
+    padding: 12px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .match-card__logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 9999px;
+    background: #cfd2da;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 16px;
+  }
+
+  .match-card__teamname {
+    font-size: 11px;
+    color: #555a66;
+    text-align: center;
+  }
+
+  /* 가운데: 노란 티켓 */
+  .match-card__ticket {
+    width: 200px;
+    height: 113px;
+    padding: 16px 14px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 6px;
+    align-items: center;
+    text-align: center;
+    background:
+      /* 왼쪽 톱니 */
+      repeating-linear-gradient(
+        to bottom,
+        #fdfefe 0 8px,
+        rgba(253, 254, 255, 0) 8px 16px
+      )
+        left center / 10px 16px repeat-y,
+      /* 오른쪽 톱니 */
+      repeating-linear-gradient(
+        to bottom,
+        #fdfefe 0 8px,
+        rgba(253, 254, 255, 0) 8px 16px
+      )
+        right center / 10px 16px repeat-y,
+      /* 본 색 */
+      var(--ticket-color, #ffe563);
+    border-width: 0 10px 0 10px;
+    border-style: solid;
+    border-color: #fdfefe;
+    box-sizing: border-box;
+  }
+
+  /* 티켓 안 제목: "11 vs 11" */
+  .match-card__title {
+    width: 100%;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: -0.02em;
+    color: #fdfefe;
+    text-align: center;
+  }
+
+  /* 티켓 안 날짜/시간 */
+  .match-card__datetime {
+    width: 100%;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: -0.01em;
+    color: #878a97;
+    text-align: center;
+  }
+
+  /* 티켓 안 장소 */
+  .match-card__place {
+    width: 100%;
+    max-width: 126px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: -0.01em;
+    color: #878a97;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* 오른쪽: 자세히 보기 */
+  .match-card__actions {
+    width: 78px;
+    height: 113px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .match-card__actions-inner {
+    width: 63px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .match-card__qbtn {
+    width: 21.7421875px;
+    height: 21.7421875px;
+    border-radius: 9999px;
+    background: #d9d9d9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #000;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .match-card__detail {
+    width: 63px;
+    height: 21px;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 150%;
+    letter-spacing: -0.02em;
+    color: #3c3c3c;
+    text-align: center;
+  }
+
+  /* 빈 화면 문구 */
+  .match-empty {
+    width: 100%;
+    padding: 5rem 1rem 1rem;
+    text-align: center;
+    color: #9ca3af;
+    font-size: 0.9rem;
+  }
+
+  /* 플로팅 + 버튼 */
+  .match-fab {
+    position: fixed;
+    right: calc(50% - 196.5px + 16px); /* 393폭 기준 오른쪽 16 */
+    bottom: 98px;
+    width: 64px;
+    height: 64px;
+    background: #ffffff;
+    border: 4px solid #f6cd4c;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    line-height: 1;
+    color: #f6cd4c;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.16);
+    z-index: 60;
+    text-decoration: none;
+  }
+
+  /* ───────── bottom navigation ───────── */
+  .bottom-frame {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 393px;
+    height: 91px;
+    z-index: 50;
+  }
+
+  .bottom-inner {
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    display: flex;
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.08);
+    padding: 10px 0 35px 0;
+  }
+
+  .bottom-tab {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-decoration: none;
+    color: #cbd0d9;
+  }
+
+  .bottom-tab--active {
+    color: #f6cd4c;
+  }
+
+  .bottom-icon svg {
+    display: block;
+  }
+
+  .bottom-label {
+    font-size: 11px;
+  }
+
+  /* ───────── 매칭 생성 페이지 ───────── */
+  .create-root {
+    background: #ffffff;
+  }
+
+  /* 한 줄짜리 상단 헤더 */
+  .create-header-bar {
+    width: 393px;
+    height: 48px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .create-back-btn {
+    background: transparent;
+    border: none;
+    font-size: 26px;
+    line-height: 1;
+    color: #000;
+    width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .create-title {
+    flex: 1;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .create-header-spacer {
+    width: 32px;
+  }
+
+  .create-body {
+    width: 393px;
+    flex: 1;
+    background: #ffffff;
+    padding: 0 16px 120px;
+    box-sizing: border-box;
+  }
+
+  .create-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .create-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .create-label {
+    font-size: 13px;
+    color: #5c5f66;
+  }
+
+  .create-label.required::after {
+    content: ' *';
+    color: #f6cd4c;
+  }
+
+  .create-input {
+    height: 40px;
+    border: none;
+    border-bottom: 1px solid #d8d8d8;
+    font-size: 14px;
+    outline: none;
+  }
+
+  .create-input:focus {
+    border-bottom: 1px solid #f6cd4c;
+  }
+
+  .create-row-2 {
+    display: flex;
+    gap: 12px;
+  }
+
+  .create-row-2 .create-field {
+    flex: 1;
+  }
+
+  /* 버튼 위에 오류가 생겼다가 없어지는 자리 */
+  .create-error-slot {
+    min-height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .create-error-text {
+    font-size: 12px;
+    color: #f58c7b;
+    text-align: center;
+  }
+
+  .create-submit {
+    margin-top: 4px;
+    width: 100%;
+    height: 50px;
+    background: #f6cd4c;
+    border: none;
+    border-radius: 25px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .create-submit.is-disabled {
+    background: #d3d6db;
+    color: #ffffff;
+    cursor: not-allowed;
+  }
+
+  /* number 인풋 화살표 제거 (구장비용/선출 인원수) */
+  .create-input[type='number']::-webkit-outer-spin-button,
+  .create-input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .create-input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  /* ───────── 자세히 보기 모달 ───────── */
+  .match-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+  }
+
+  .match-modal-card {
+    width: min(419.6px, 100vw - 32px);
+    height: 621.5px;
+    background: #d9d9d9;
+    border-radius: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* 내용을 좀 더 아래로 내림 */
+    padding-top: 60px;
+    box-sizing: border-box;
+    gap: 14px;
+  }
+
+  .match-modal-closebtn {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    color: #6b6b6b;
+    cursor: pointer;
+  }
+
+  /* 아바타 (이미지 or 첫 글자) */
+  .match-modal-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 100px;
+    background: #d7dbeb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 20px;
+    color: #ffffff;
+    overflow: hidden;
+  }
+
+  .match-modal-avatar.has-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 100px;
+  }
+
+  .match-modal-teamname {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 150%;
+    letter-spacing: -0.02em;
+    color: #5a5d68;
+    text-align: center;
+  }
+
+  .match-modal-maininfo {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .match-modal-vs {
+    font-weight: 600;
+    font-size: 16px;
+    color: #ffffff;
+  }
+
+  .match-modal-datetime,
+  .match-modal-place {
+    font-size: 12px;
+    color: #7e828f;
+  }
+
+  /* 남의 매칭일 때 보이는 위쪽 필드 */
+  .match-modal-fields {
+    margin-top: 26px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+  }
+
+  .match-modal-field-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+    text-align: center;
+  }
+
+  .match-modal-field-value {
+    font-size: 13px;
+    color: #5a5d68;
+    text-align: center;
+  }
+
+  /* 아래 3칸 – 공통 (팀 실력 / 구장 비용 / 선출 인원 수) */
+  .match-modal-bottom-row {
+    margin-top: 32px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+  }
+
+  .match-modal-bottom-cell {
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .match-modal-bottom-label {
+    font-size: 13px;
+    color: #000;
+  }
+
+  .match-modal-bottom-value {
+    font-size: 13px;
+    color: #5a5d68;
+  }
+
+  /* 모달 하단 버튼 (신청 / 취소) */
+  .match-modal-action {
+    margin-top: auto;
+    margin-bottom: 28px;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .match-modal-action.cancel {
+    color: #ffffff;
+  }
+
+  /* ───────── 삭제 확인 모달 ───────── */
+  .match-confirm-modal {
+    width: 280px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px 18px 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+  }
+
+  .match-confirm-text {
+    font-size: 14px;
+    text-align: center;
+    color: #1f2933;
+  }
+
+  .match-confirm-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .match-confirm-no,
+  .match-confirm-yes {
+    min-width: 90px;
+    height: 36px;
+    border-radius: 10px;
+    border: none;
+    font-size: 13px;
+  }
+
+  .match-confirm-no {
+    background: #e5e7eb;
+    color: #111827;
+  }
+
+  .match-confirm-yes {
+    background: #f6cd4c;
+    color: #fff;
+  }
+
+  /* ===== Team Page styles ===== */
+@layer components {
+  .team-screen {
+    width: 393px;
+    flex: 1;
+    background: #ffffff;
+    padding: 16px 16px 110px;
+    box-sizing: border-box;
+  }
+
+  .section-title-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 28px;
+    padding: 0 12px;
+    border: 1.5px solid #f6cd4c;
+    border-radius: 999px;
+    color: #222;
+    font-size: 12px;
+    background: #fffaf0;
+  }
+  .mt-20 { margin-top: 20px; }
+
+  .hello-title {
+    margin: 14px 0 10px;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    color: #0f172a;
+  }
+  .hello-title span { font-weight: 800; }
+
+  .stat-card {
+    margin-top: 10px;
+    width: 100%;
+    background: #e9edf3;
+    border-radius: 14px;
+    padding: 16px;
+    box-sizing: border-box;
+  }
+  .stat-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #2b2f36;
+  }
+  .stat-sub {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #2b2f36;
+  }
+
+  .stat-bar {
+    margin-top: 10px;
+    position: relative;
+    width: 100%;
+    height: 10px;
+    background: #c7cbd8;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .stat-bar__fill {
+    height: 100%;
+    background: #f6d258; /* 노란 진행 색 */
+    border-radius: 999px;
+    transition: width 200ms ease;
+  }
+  .stat-bar__ticks {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #3b3f48;
+  }
+
+  .team-grid {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .team-card {
+    width: 100%;
+    aspect-ratio: 1.25/1; 
+    border-radius: 10px;
+    background: #d9d9d9;
+  }
+  .team-card.placeholder {
+    background: linear-gradient(180deg, #d9d9d9, #d4d4d4);
+  }
+
+  .team-actions {
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+  }
+  .action-row {
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #f0f2f5;
+    color: #0f172a;
+    text-decoration: none;
+    font-size: 16px;
+  }
+  .action-row svg { flex: 0 0 auto; }
+}
+/* ===== Team Manage ===== */
+@layer components {
+  .team-manage {
+    width: 393px;
+    background: #fff;
+    min-height: calc(100svh - 0px);
+    padding-bottom: 24px;
+  }
+
+  .tm-header {
+    position: relative;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #f1f2f4;
+  }
+  .tm-back, .tm-kebab {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    height: 36px; width: 36px; display: grid; place-items: center;
+    border-radius: 8px; border: 0; background: transparent; color: #222;
+  }
+  .tm-back { left: 8px; }
+  .tm-kebab { right: 8px; font-size: 20px; }
+  .tm-title { font-weight: 700; font-size: 18px; }
+
+  .tm-topmenu {
+    position: absolute; right: 8px; top: 48px;
+    background: #fff; border-radius: 10px; padding: 8px 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.08);
+  }
+  .tm-topmenu-item { display:block; padding:8px 6px; background:transparent; border:0; font-size:14px; }
+  .tm-topmenu-item.danger { color:#ff5a5a; }
+
+  .tm-profile {
+    display: grid;
+    grid-template-columns: 112px 1fr;
+    gap: 16px;
+    padding: 16px;
+    align-items: start;
+  }
+  .tm-avatar {
+    width: 112px; height: 112px; border-radius: 999px;
+    background: #d7dbeb; display: grid; place-items: center;
+    overflow: hidden; position: relative; cursor: pointer;
+  }
+  .tm-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .tm-avatar-initial { font-size: 40px; font-weight: 700; color:#fff; }
+  .tm-avatar-input { position:absolute; inset:0; opacity:0; cursor:pointer; }
+
+  .tm-fields .tm-field { margin-bottom: 12px; }
+  .tm-label { font-size: 14px; color:#2b2f36; margin-bottom: 6px; }
+  .tm-label .req { color:#f0a500; }
+  .tm-input {
+    width: 100%; height: 40px; border-radius: 8px; border:1px solid #e8ebf0;
+    padding: 0 12px; box-sizing: border-box; outline: none;
+  }
+  .tm-read { min-height: 40px; display:flex; align-items:center; }
+
+  .tm-rolechips { display:flex; gap:8px; padding: 8px 16px; }
+  .chip { padding: 4px 10px; border-radius: 999px; border:1px solid #f6cd4c; background:#fffaf0; font-size:12px; }
+  .chip.ghost { opacity:.4; }
+
+  .tm-members { padding: 0 8px; }
+  .tm-member-row {
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 12px 8px; border-bottom: 1px solid #f2f3f5; position: relative;
+  }
+  .tm-member-name { font-size: 15px; }
+  .tm-badge { margin-left:8px; font-size:11px; background:#eef2ff; color:#5062e6; padding:2px 6px; border-radius:6px; }
+  .tm-rowkebab { border:0; background:transparent; font-size:18px; color:#666; }
+  .tm-rowmenu {
+    position: absolute; right: 8px; top: 40px; background:#fff; border-radius:10px; padding:6px 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.08); z-index: 10;
+  }
+  .tm-rowmenu-item { display:block; width:140px; text-align:left; padding:8px 4px; border:0; background:transparent; }
+  .tm-rowmenu-item.danger { color:#ff5a5a; }
+
+  /* 팀 카드 확장(TeamPage) */
+  .teamcard--real {
+    background: #fff;
+    border: 1px solid #eef1f5;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    border-radius: 10px;
+  }
+  .teamcard-logo {
+    width: 72px; height: 72px; border-radius: 999px; background:#d7dbeb; display:grid; place-items:center; overflow:hidden;
+  }
+  .teamcard-logo img { width:100%; height:100%; object-fit:cover; }
+  .teamcard-initial { color:#fff; font-size:28px; font-weight:700; }
+  .teamcard-name { margin-top: 8px; font-weight: 600; }
+}
+
+/* ===== Team Page: 가로 스크롤 그리드(2칸 고정) ===== */
+@layer components {
+  .team-grid {
+    margin-top: 12px;
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .team-grid::-webkit-scrollbar { height: 0; }
+  .team-grid { scrollbar-width: none; }
+
+  /* 회색 placeholder 카드 */
+  .team-card {
+    flex: 0 0 calc((393px - 14px) / 2);
+    height: 180px;
+    border-radius: 10px;
+    background: #d9d9d9;
+    scroll-snap-align: start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 실제 팀 카드 */
+  .teamcard--real {
+    background: #fff;
+    border: 1px solid #eef1f5;
+    flex: 0 0 calc((393px - 14px) / 2);
+    height: 180px;
+    border-radius: 10px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    scroll-snap-align: start;
+    text-decoration: none;
+    color: inherit;
+  }
+  .teamcard-logo {
+    width: 72px; height: 72px; border-radius: 999px; background:#d7dbeb;
+    display:grid; place-items:center; overflow:hidden;
+  }
+  .teamcard-logo img { width:100%; height:100%; object-fit:cover; }
+  .teamcard-initial { color:#fff; font-size:28px; font-weight:700; }
+  .teamcard-name { margin-top: 8px; font-weight: 600; }
+}
+
+
+
+/* 팀 카드 링크: 밑줄/방문색 제거 + 터치 하이라이트 제거 */
+.teamcard--real,
+.teamcard--real:link,
+.teamcard--real:visited,
+.teamcard--real:hover,
+.teamcard--real:active {
+  text-decoration: none;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent; /* iOS 터치 하이라이트 제거 */
+  outline: none;
+}
+
+/* 카드 내부 텍스트도 링크 방문색 영향 안 받도록 */
+.teamcard--real * {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 팀 그리드 2칸 + 초과 시 가로 스크롤 */
+.team-grid-scroll {
+  margin-top: 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.team-grid-scroll::-webkit-scrollbar { display: none; }
+.team-grid-2 {
+  display: grid;
+  grid-auto-flow: column;      /* 가로로 이어붙임 */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  padding-bottom: 4px;         /* 스크롤바 자리 */
+}
+
+/* 매칭 생성: 팀장 안내 문구 - 두 줄 모두 같은 글씨체로 */
+.create-team-note p {
+  margin: 0;
+  font-family: Pretendard, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+  font-weight: 600;         /* SemiBold */
+  font-size: 16px;
+  line-height: 140%;
+  letter-spacing: 0;
+}
+
+/* 색상만 차이 */
+.create-team-note .note-line { color: #111827; }  /* 위 줄 */
+.create-team-note .note-sub  { color: #111827; margin-top: 4px; } /* 아래 줄 */
+
+
+
+
+
+
+
+}

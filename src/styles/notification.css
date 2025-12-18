@@ -1,0 +1,83 @@
+/* src/styles/notification.css */
+
+/* 헤더 뱃지 */
+.notification-button {
+  position: relative;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+.notification-badge {
+  position: absolute;
+  top: -2px; right: -2px;
+  width: 8px; height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+}
+
+/* 알림 화면 */
+.notification-screen {
+  max-width: 560px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.notification-header {
+  height: 56px;
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  align-items: center;
+  padding: 0 8px;
+  border-bottom: 1px solid #f1f2f4;
+}
+.notification-header .back-arrow {
+  width: 40px; height: 40px; border: 0; background: transparent; cursor: pointer; font-size: 22px;
+}
+.header-title { justify-self: center; font-weight: 600; font-size: 18px; }
+
+.notification-list-container { padding: 8px 12px 24px; }
+.notification-item {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 8px;
+  border-bottom: 1px solid #f3f4f6;
+  cursor: pointer;
+}
+.notification-item.unread { background: #fff; }
+.notification-item.read { background: #fafafa; }
+.notif-icon-circle {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: #f3f4f6;
+  font-weight: 700;
+}
+.notif-content .notif-message { margin: 0; font-weight: 600; font-size: 14px; }
+.notif-content .notif-action { margin: 2px 0 0; font-size: 12px; color: #6b7280; }
+.notif-time { font-size: 12px; color: #9ca3af; }
+
+/* 모달 공통 */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.35);
+  z-index: 199;
+}
+.modal-container {
+  position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 320px; max-width: calc(100% - 32px);
+  background: #fff; border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.15);
+  padding: 16px; z-index: 200;
+}
+.modal-type-label { font-size: 12px; color: #9ca3af; margin: 0 0 10px; }
+.modal-content-area { text-align: center; }
+.modal-info-title { margin: 0 0 6px; font-size: 14px; color: #6b7280; }
+.modal-main-text { margin: 6px 0; font-weight: 700; font-size: 16px; }
+.modal-question { margin: 8px 0 0; font-size: 14px; color: #374151; }
+.modal-actions { display: flex; gap: 8px; margin-top: 14px; }
+.btn-reject, .btn-accept { flex: 1 1 0; height: 40px; border-radius: 12px; border: 0; cursor: pointer; font-weight: 600; }
+.btn-reject { background: #e5e7eb; color: #111827; }
+.btn-accept { background: #fcd75d; color: #111827; }

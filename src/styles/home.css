@@ -1,0 +1,365 @@
+/* === 홈 화면 전용: 모두 .home-container 스코프 === */
+
+/* ---------------- Header ---------------- */
+.home-container .home-header{
+  background:#fff;
+  height:56px;
+  padding:0 16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 2px 5px rgba(0,0,0,.05);
+}
+.home-container .header-brand{
+  font-family:'Jalnan2', sans-serif;
+  font-weight:900;
+  font-size:22px;
+  margin:0;
+  color:#ffd555;
+}
+.home-container .header-brand .dark{ color:rgba(213,163,10,.829); }
+.home-container .notification-button{
+  position:relative;
+  width:28px;height:28px;
+  display:grid;place-items:center;
+  background:none;border:none;outline:none;padding:0;cursor:pointer;
+}
+.home-container .notification-button .bell-icon{
+  display:block; color:#c9a832; width:22px; height:22px;
+}
+.home-container .notification-badge{
+  position:absolute; right:-2px; top:-1px;
+  width:7px; height:7px; border-radius:50%;
+  background:#ef4444; border:1px solid #fff;
+}
+
+/* ---------------- Hero text ---------------- */
+.home-container .match-header{ text-align:center; margin:12px 0 6px; }
+.home-container .match-date{ margin:0; color:#ffd555; font-weight:800; font-size:20px; }
+.home-container .match-text{ margin:6px 0 0; color:#8c92a0; font-weight:800; font-size:18px; }
+.home-container .dot-indicator{ margin:6px 0; line-height:0; text-align:center; }
+.home-container .dot-indicator .dot{ display:inline-block; font-size:10px; color:#d1d5db; margin:0 4px; opacity:.9; }
+.home-container .dot-indicator .dot.active{ color:#c9a832; opacity:1; }
+
+/* ================= HeroMatch ================= */
+.home-container .main-match{ padding:0 12px; }
+.home-container .main-match .match-card{
+  position:relative;
+  width:100%;
+  max-width:356px;
+  margin:0 auto;
+  height:auto !important;
+  background:linear-gradient(180deg,#ffe563 0%,#ffd555 100%) !important;
+  border-radius:14px;
+  box-shadow:0 6px 16px rgba(0,0,0,.08);
+  padding:14px 0 0;
+  overflow:visible;
+  display:flex; flex-direction:column;
+}
+
+/* ================= 진행 중인 매치 ================= */
+
+/* 🔧 [수정] 섹션 배경을 회색으로 */
+.home-container .sub-match-section{
+  background:#f1f3f7;
+  margin-top:.5rem;
+  padding:.5rem 0 1rem;
+}
+
+/* 진행 중인 매치 pill */
+.section-pill {
+  display: inline-block;
+  padding: 6px 14px;
+  border: 2px solid #e5c35c;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 12px 16px;
+  background:#fff;
+}
+
+/* 가로 스크롤 */
+.match-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 0 16px 8px;
+}
+.match-scroll::-webkit-scrollbar { display: none; }
+
+/* ================= 매치 카드 ================= */
+
+/* 🔧 [수정] 카드 크기 줄이기 */
+.match-card-horizontal {
+  min-width: 140px;
+  max-width: 140px;
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 16px 12px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+  flex-shrink: 0;
+  text-align: center;
+}
+
+/* 🔧 [수정] A VS A 영역 */
+.match-card-horizontal .circle-icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  margin-bottom:10px;
+}
+
+.match-card-horizontal .circle{
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  background:#eeeeee;      /* 연한 회색 */
+  color:#7a7a7a;           /* 진한 회색 */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:14px;
+}
+
+.match-card-horizontal .circle-icon span{
+  font-size:13px;
+  font-weight:700;
+  color:#9ca3af;
+}
+
+/* 🔧 [수정] 텍스트 스타일 */
+.match-card-horizontal .small-date,
+.match-card-horizontal .small-location,
+.match-card-horizontal .small-count{
+  font-size:13px;
+  font-weight:600;
+  color:#6b7280;
+  margin:4px 0;
+}
+
+/* 🔧 [수정] 참여하기 버튼 */
+.match-card-horizontal .primary-btn-small{
+  width:100%;
+  height:36px;
+  margin-top:10px;
+  background:#ffd84d;
+  border:none;
+  border-radius:18px;
+  font-weight:700;
+  font-size:14px;
+  color:#ffffff;   /* 흰색 텍스트 */
+  cursor:pointer;
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width:480px){
+  .home-container .main-match .match-card{ max-width:92%; }
+}
+
+/* ===== HeroMatch 내부 구성 복구 ===== */
+
+.home-container .main-match .match-info-top{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  align-items:center;
+  padding:0 12px 8px;
+}
+
+.home-container .main-match .team-side{
+  display:grid;
+  justify-items:center;
+  gap:4px;
+}
+
+.home-container .main-match .team-circle{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:#d9d9d9;
+  color:#6c6c6c;
+  display:grid;
+  place-items:center;
+  font-weight:700;
+}
+
+.home-container .main-match .team-label{
+  font-size:12px;
+  font-weight:700;
+  color:#555;
+}
+
+.home-container .main-match .match-center{
+  text-align:center;
+}
+
+.home-container .main-match .match-center h3{
+  margin:0;
+  font-size:22px;
+  font-weight:900;
+  color:#ffffff;
+}
+
+.home-container .main-match .match-center p{
+  margin-top:6px;
+  font-size:14px;
+  font-weight:700;
+  color:#ffffff;
+}
+
+
+/* 선수 스트라이프 */
+.home-container .main-match .match-stripes-area{
+  width:100%;
+  background:repeating-linear-gradient(
+    to bottom,
+    #dfb640,
+    #dfb640 30px,
+    #f0c549 30px,
+    #f0c549 60px
+  );
+  display:grid;
+  grid-template-columns:1fr 80px 1fr;
+  padding:0 16px;
+}
+
+.home-container .main-match .player-side.left ul{
+  text-align:right;
+  padding-right:12px;
+}
+.home-container .main-match .player-side.right ul{
+  text-align:left;
+  padding-left:12px;
+}
+.home-container .main-match .match-stripes-area ul{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+ 
+.home-container .main-match .match-stripes-area{
+  display:grid;
+  grid-template-columns:1fr 96px 1fr;
+  padding:0 20px;
+}
+
+.home-container .main-match .player-side.left{
+  display:flex;
+  justify-content:flex-end;
+}
+
+.home-container .main-match .player-side.left ul{
+  text-align:right;
+}
+
+.home-container .main-match .player-side.right{
+  display:flex;
+  justify-content:flex-start;
+}
+
+.home-container .main-match .player-side.right ul{
+  text-align:left;
+}
+
+
+
+
+
+
+/* 화살표 */
+.home-container .main-match .arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:none;
+  border:none;
+  font-size:28px;
+  font-weight:900;
+  color:#5e5e61;
+  cursor:pointer;
+  z-index:6;
+}
+
+.home-container .main-match .arrow.left{ left:10px; }
+.home-container .main-match .arrow.right{ right:10px; }
+
+/* 하단 페이드 */
+.home-container .main-match .fade-overlay-bottom{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:96px;
+  background:linear-gradient(
+    to bottom,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.94) 78%,
+    #ffffff 100%
+  );
+  z-index:4;
+}
+
+/* 펼치기 버튼 */
+.home-container .main-match .expand-area-wrapper{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:16px;
+  text-align:center;
+  z-index:7;
+}
+
+.home-container .main-match .expand-btn{
+  background:#fff;
+  border:2px solid #111;
+  border-radius:999px;
+  padding:8px 22px;
+  font-weight:700;
+}
+
+.home-container .notification-button{
+  position:relative;
+  width:28px;
+  height:28px;
+  display:grid;
+  place-items:center;
+  background:none;
+  border:none;
+  cursor:pointer;
+}
+
+.home-container .notification-badge{
+  position:absolute;
+  top:-2px;
+  right:-2px;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#ef4444;
+}
+
+/* 기존 스타일 덮어쓰기 */
+.home-container .main-match .match-center h3{
+  font-size:24px !important;
+  font-weight:900 !important;
+  color:#111 !important;
+  margin:0;
+}
+
+.home-container .main-match .match-center p{
+  font-size:14px !important;
+  font-weight:700 !important;
+  color:#111 !important;
+  margin-top:6px;
+}
+
+.home-container .main-match .match-stripes-area li{
+  height:30px;
+  line-height:30px;
+  font-size:14px;
+  font-weight:700;
+  color:#111;
+  white-space:nowrap;
+}

@@ -1,0 +1,446 @@
+/* src/styles/team.css */
+/* ───────────────── 공통 변수 ───────────────── */
+:root {
+  --gold: #DFB640;
+  --chip-text: #8A6B00;
+  --text-weak: #5A5D68;
+}
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; }
+img { display:block; max-width:100%; }
+
+/* ───────────────── 페이지 래퍼 ───────────────── */
+.team-manage{
+  background:#fff;
+  min-height:100dvh;
+  width:393px;          /* 아이폰 기준폭 */
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ───────────────── Header (깨짐 방지: 40/1fr/40 그리드) ───────────────── */
+.tm-header{
+  height:59px;
+  display:grid;
+  grid-template-columns:40px 1fr 40px;
+  align-items:center;
+  padding:0 8px;
+  background:#fff;
+  position:sticky;
+  top:0;
+  z-index:10;
+  border-bottom:1px solid #f1f2f4;
+}
+
+/* ← / ⋮ 버튼 */
+.tm-back, .tm-kebab{
+  width:40px; height:40px;
+  display:flex; align-items:center; justify-content:center;
+  background:transparent; border:0; padding:0; cursor:pointer;
+}
+
+/* 매칭 생성 때와 동일한 선 화살표 느낌을 SVG로 사용(컴포넌트에서 넣음) */
+
+/* 제목 "팀 관리" */
+.tm-title{
+  justify-self:center;
+  height:28px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:Pretendard, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+  font-weight:600;         /* SemiBold */
+  font-size:20px;
+  line-height:28px;        /* 140% */
+  letter-spacing:0;
+  color:#111;
+}
+
+/* 케밥 점 3개 */
+.tm-kebab{ flex-direction:column; gap:3px; }
+.tm-kebab-dot{
+  width:3px; height:3px; border-radius:50%;
+  background:#111; display:block;
+}
+
+/* 우상단 드롭다운 (팀 삭제하기) */
+.tm-topmenu{
+  position:absolute; right:8px; top:58px;
+  background:#fff; border:1px solid #EEE; border-radius:10px;
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+  overflow:hidden; z-index:20;
+}
+.tm-topmenu-item{
+  display:block; padding:10px 14px; min-width:140px;
+  border:0; background:#fff; text-align:left; font-size:14px;
+}
+.tm-topmenu-item:hover{ background:#FAFAFA; }
+.tm-topmenu-item.danger{ color:#D44; }
+
+/* ──────────────── 상단 프로필 블록 (로고 + 텍스트) ──────────────── */
+.tm-info{
+  display:flex;
+  gap:16px;
+  padding:16px 20px 0 20px;
+  background:#fff;
+}
+
+/* 로고 92x92 */
+.tm-logo{
+  width:92px; height:92px; border-radius:50%;
+  background:#D7DBEB;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden; position:relative; flex:0 0 auto;
+}
+.tm-logo img{ width:100%; height:100%; object-fit:cover; }
+.tm-logo-initial{ font-size:40px; color:#fff; font-weight:700; }
+.tm-avatar-input{ position:absolute; inset:0; opacity:0; cursor:pointer; }
+
+/* 오른쪽 텍스트 열: 한 줄씩 */
+.tm-info-right{ flex:1 1 auto; padding-top:4px; min-width:0; }
+.tm-fieldRow{
+  display:flex; align-items:center;
+  gap:8px;
+  margin-bottom:10px;
+  min-height:24px;
+  flex-wrap:wrap;
+}
+.tm-fieldLabel{
+  width:auto;
+  min-width:53px;             /* 가장 긴 '활동 지역' 기준 */
+  font-family:Pretendard, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+  font-weight:500;            /* Medium */
+  font-size:12px;
+  line-height:140%;
+  letter-spacing:-0.01em;
+  color:var(--text-weak);
+}
+.tm-meta-input{
+  height:32px; border:1px solid #E5E7EB; border-radius:8px;
+  padding:0 10px; font-size:14px; flex:1 1 auto;
+}
+.tm-fieldValue{ font-size:14px; color:#111; }
+
+/* ──────────────── 칩 & 리스트 (위치: 팀장 칩 → 팀장명, 멤버 칩 → 멤버들) ──────────────── */
+.tm-listWrap{
+  padding:8px 20px 24px 20px;
+  background:#fff;
+}
+
+/* 칩 줄 */
+.tm-chipRow{ display:flex; gap:8px; align-items:center; margin-top:12px; }
+
+/* 칩 45x25 (요청 스펙) */
+.tm-chip{
+  width:45px;
+  height:25px;
+  padding:4px 12px;
+  border-radius:50px;
+  border:1px solid var(--gold);
+  background:#fff;
+  color:var(--chip-text);
+  display:flex;
+  align-items:center; justify-content:center;
+  font-size:12px; line-height:17px; letter-spacing:0; white-space:nowrap;
+}
+.mt8{ margin-top:8px; }
+
+/* 한 줄 사용자(팀장/멤버) */
+.tm-personRow{
+  height:40px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:8px 0 8px 12px;
+  border-bottom:1px solid #F1F1F3;
+  position:relative;
+}
+.tm-personName{
+  font-size:16px; color:#111; display:flex; align-items:center; gap:8px;
+}
+.tm-roleBadge{
+  padding:2px 6px; border-radius:8px;
+  font-size:12px; color:#6B7280;
+  background:#EEF2FF;
+}
+
+/* 멤버 행 케밥 + 팝오버 */
+.tm-rowKebab{
+  width:24px; height:24px; border:0; background:transparent;
+  display:flex; align-items:center; justify-content:center; margin-right:6px;
+}
+.tm-rowKebab .tm-kebab-dot{
+  width:3px; height:3px; background:#9CA3AF; border-radius:50%; display:block;
+}
+.tm-rowmenu{
+  position:absolute; right:0; top:28px;
+  background:#fff; border:1px solid #eee; border-radius:10px;
+  box-shadow:0 8px 20px rgba(0,0,0,.08); z-index:15; overflow:hidden;
+}
+.tm-rowmenu-item{
+  display:block; width:140px; text-align:left;
+  padding:10px 12px; border:0; background:#fff; font-size:14px;
+}
+.tm-rowmenu-item:hover{ background:#FAFAFA; }
+.tm-rowmenu-item.danger{ color:#D44; }
+
+/* 빈 상태 */
+.tm-empty{ padding:16px 0; color:#9CA3AF; font-size:14px; text-align:center; }
+
+
+/* 헤더 타이틀을 아이콘과 무관하게 정확히 가운데 */
+.tm-header { position: relative; }
+
+.tm-title{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  pointer-events: none;  /* 제목이 버튼 클릭을 가리지 않게 */
+}
+
+
+/* ============== Team New (팀 만들기) ============== */
+
+/* 헤더: 가운데 정렬, 좌/우 40px 영역 확보 */
+.tn-header{
+  height:59px;
+  display:grid;
+  grid-template-columns:40px 1fr 40px;
+  align-items:center;
+  padding:0 8px;
+  background:#fff;
+  border-bottom:1px solid #f1f2f4;
+}
+.tn-back,
+.tn-right-spacer{
+  width:40px; height:40px;
+  display:flex; align-items:center; justify-content:center;
+  background:transparent; border:0;
+}
+.tn-title{
+  justify-self:center;
+  font-family:Pretendard, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+  font-weight:600;            /* SemiBold */
+  font-size:20px;
+  line-height:28px;           /* 140% */
+  letter-spacing:0;
+  color:#121212;
+}
+
+/* 본문 */
+.tn-body{
+  width:393px;
+  background:#fff;
+  padding:16px 20px 120px;
+  box-sizing:border-box;
+}
+
+/* 섹션 제목: "팀 로고" */
+.tn-section-title{
+  width:52px; height:21px;
+  font-family:Pretendard, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+  font-weight:500;            /* Medium */
+  font-size:18px;
+  line-height:100%;
+  letter-spacing:0;
+  color:#111;
+  margin:14px 0 12px;
+}
+
+/* 로고 업로더 */
+.tn-avatar{
+  width:148.3899px; height:148.3899px;
+  border-radius:264.98px;
+  background:#D7DBEB;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+  margin:0 auto 18px;
+  position:relative;
+}
+.tn-avatar img{ width:100%; height:100%; object-fit:cover; }
+.tn-avatar-initial{ font-size:64px; font-weight:700; color:#fff; }
+.tn-avatar-input{ position:absolute; inset:0; opacity:0; cursor:pointer; }
+
+/* 입력 폼 */
+.tn-form{ display:flex; flex-direction:column; gap:16px; margin-top:6px; }
+.tn-field{ display:flex; flex-direction:column; gap:6px; width:353px; margin:0 auto; }
+.tn-label{
+  display:flex; align-items:center; gap:4px;
+  font-family:Pretendard, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+  font-weight:500;            /* Medium */
+  font-size:12px;
+  line-height:140%;
+  letter-spacing:-1%;
+  color:#5A5D68;              /* Emphasize-2 톤 */
+}
+.req{ color:#F6A800; }        /* 별표 색 */
+
+.tn-input{
+  height:40px;
+  border:none;
+  border-bottom:1px solid #d8d8d8;
+  font-size:14px;
+  outline:none;
+}
+.tn-input:focus{ border-bottom:1px solid #FFD555; }
+
+/* 오류 문구 영역(버튼 위 고정) */
+.tn-error-slot{
+  min-height:18px;
+  display:flex; align-items:center; justify-content:center;
+  margin:6px 0 8px;
+}
+.tn-error-text{
+  font-size:12px; color:#f58c7b; text-align:center;
+}
+
+/* 생성하기 버튼 (요청 레이아웃) */
+.tn-submit{
+  width:373px; height:54px;
+  border-radius:50px;
+  padding:10px;
+  background:#FFD555;          /* 버튼 배경 */
+  border:none;
+  display:flex; align-items:center; justify-content:center;
+  margin:0 auto;
+}
+.tn-submit-label{
+  width:81px; height:34px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:Pretendard, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+  font-weight:600;             /* SemiBold */
+  font-size:24px;
+  line-height:140%;
+  letter-spacing:-0.03em;      /* -3% */
+  color:#FDFEFF;               /* 텍스트 색 */
+}
+
+/* 본문 여백을 조금 늘려 아래 CTA 공간 확보 */
+.tn-body{
+  width:393px;
+  background:#fff;
+  padding:16px 20px 140px; /* ⬅︎ bottom 살짝 늘림 */
+  box-sizing:border-box;
+}
+
+/* 흰 화면(393px) 기준으로 CTA 래퍼를 정확히 중앙에 고정 */
+.tn-cta{
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 393px;              /* ← 흰 영역 폭에 정확히 맞춤 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 40px;
+}
+
+/* 오류 문구(버튼 위) */
+.tn-error-slot{
+  min-height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 생성하기 버튼: 373 x 54, pill, 정확히 중앙 */
+.tn-submit{
+  width: 373px;
+  height: 54px;
+  border-radius: 50px;
+  padding: 10px;
+  background: #FFD555;
+  border: none;
+  display: flex;             /* 텍스트 완전 중앙 배치 */
+  align-items: center;
+  justify-content: center;
+}
+
+/* 값 미입력 시 회색 */
+.tn-submit.is-disabled{
+  background: #D3D6DB;
+  cursor: not-allowed;
+}
+
+/* 버튼 텍스트 스타일 */
+.tn-submit-label{
+  font-family: Pretendard, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+  font-weight: 600;          /* SemiBold */
+  font-size: 24px;
+  line-height: 140%;
+  letter-spacing: -0.03em;   /* -3% */
+  color: #FDFEFF;
+}
+
+/* ───────── Team 관리 모달 ───────── */
+.tm-confirm-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+  display:flex; align-items:center; justify-content:center;
+  z-index: 200;
+}
+.tm-confirm-card{
+  width: 280px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.15);
+  display:flex; flex-direction:column; gap:14px; align-items:center;
+}
+.tm-confirm-text{
+  font-size:14px; line-height:1.5; color:#1f2933; text-align:center; white-space:pre-line;
+}
+.tm-confirm-actions{ display:flex; gap:10px; }
+.tm-confirm-no, .tm-confirm-yes{
+  min-width:90px; height:36px; border-radius:10px; border:none; font-size:13px; cursor:pointer;
+}
+.tm-confirm-no{ background:#e5e7eb; color:#111827; }
+.tm-confirm-yes{ background:#f6cd4c; color:#fff; }
+
+/* ===== Team Page: 가로 스크롤 그리드(2칸 고정) ===== */
+@layer components {
+  .team-grid {
+    margin-top: 12px;
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .team-grid::-webkit-scrollbar { height: 0; }
+  .team-grid { scrollbar-width: none; }
+
+  /* 회색 placeholder 카드 */
+  .team-card {
+    flex: 0 0 calc((393px - 14px) / 2);
+    height: 180px;
+    border-radius: 10px;
+    background: #d9d9d9;
+    scroll-snap-align: start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 실제 팀 카드 */
+  .teamcard--real {
+    background: #fff;
+    border: 1px solid #eef1f5;
+    flex: 0 0 calc((393px - 14px) / 2);
+    height: 180px;
+    border-radius: 10px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    scroll-snap-align: start;
+    text-decoration: none;
+    color: inherit;
+  }
+  .teamcard-logo {
+    width: 72px; height: 72px; border-radius: 999px; background:#d7dbeb;
+    display:grid; place-items:center; overflow:hidden;
+  }
+  .teamcard-logo img { width:100%; height:100%; object-fit:cover; }
+  .teamcard-initial { color:#fff; font-size:28px; font-weight:700; }
+  .teamcard-name { margin-top: 8px; font-weight: 600; }
+}
